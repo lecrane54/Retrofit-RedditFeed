@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kyle.lefebvre.retrofit.Activities.MainActivity">
+
+    <com.brouding.blockbutton.BlockButton
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:id="@+id/button"
+        app:pushDepthDp="2"
+        app:buttonColor="#58ad26"
+        app:buttonGapColor="@color/LimeGreen"
+        android:layout_marginTop="10dp"
+
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:textSize="17dp"
+            android:text="REFRESH" />
+        
+        </com.brouding.blockbutton.BlockButton>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerview"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        android:scrollIndicators="right"
+
+        >
+
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
