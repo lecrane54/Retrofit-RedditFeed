@@ -11,22 +11,17 @@ public class webviewActivity extends AppCompatActivity {
 
     private WebView mWebView;
     private String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
-        mWebView = (WebView)findViewById(R.id.web);
+        initWebview();
 
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setBuiltInZoomControls(true);
-
-        Bundle b = getIntent().getExtras();
-        url = b.getString("url");
+        getBundleExtras();
 
         mWebView.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverrideUrlLoading(WebView view, String urlz){
+            public boolean shouldOverrideUrlLoading(WebView view, String urlz) {
                 view.loadUrl(urlz);
                 return false;
             }
@@ -34,6 +29,20 @@ public class webviewActivity extends AppCompatActivity {
 
         mWebView.loadUrl(url);
 
+    }
+
+    private void getBundleExtras() {
+        Bundle b = getIntent().getExtras();
+        url = b.getString("url");
+    }
+
+    private void initWebview() {
+        mWebView = (WebView) findViewById(R.id.web);
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setUseWideViewPort(true);
+        mWebView.getSettings().setBuiltInZoomControls(true);
     }
 
     @Override

@@ -21,49 +21,60 @@ import com.kyle.lefebvre.retrofit.model.children.Children;
 import java.util.List;
 
 
-
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> {
     private List<Children> childrenList;
     private Context mContext;
+    private Children child;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView author, subreddit, title;
         public ImageView mImageView;
         public View mView;
+
         public MyViewHolder(View view) {
             super(view);
             mView = view;
-            author = (TextView) view.findViewById(R.id.author);
-            subreddit = (TextView) view.findViewById(R.id.subreddit);
-            title = (TextView) view.findViewById(R.id.title);
-            mImageView = (ImageView)view.findViewById(R.id.imageview);
+            init(view);
+            setListeners(view);
+        }
+
+        private void setListeners(View view) {
             mImageView.setOnClickListener(this);
             view.setOnClickListener(this);
         }
 
+        private void init(View view) {
+            author = (TextView) view.findViewById(R.id.author);
+            subreddit = (TextView) view.findViewById(R.id.subreddit);
+            title = (TextView) view.findViewById(R.id.title);
+            mImageView = (ImageView) view.findViewById(R.id.imageview);
+        }
+
+        private void getChildPosition() {
+            int i = getAdapterPosition();
+            child = childrenList.get(i);
+        }
+
         @Override
         public void onClick(View v) {
-            if(v == mView){
-                int i = getAdapterPosition();
-                Children child = childrenList.get(i);
-                Intent intent = new Intent(mContext,webviewActivity.class);
-                intent.putExtra("url",child.getData().getUrl());
+            if (v == mView) {
+                getChildPosition();
+                Intent intent = new Intent(mContext, webviewActivity.class);
+                intent.putExtra("url", child.getData().getUrl());
                 mContext.startActivity(intent);
 
-            }else{
-                int i = getAdapterPosition();
-                Children child = childrenList.get(i);
+            } else {
+                getChildPosition();
 
-                Intent intent = new Intent(mContext,image.class);
-
+                Intent intent = new Intent(mContext, image.class);
 
 
                 intent.putExtra("theTitle", child.getData().getTitle());
-                intent.putExtra("thumbnail",child.getData().getThumbnail());
-                Pair<View,String> pair1 = new Pair<>((View)mImageView,"image");
-                Pair<View,String> pair2 = new Pair<>((View)title,"title");
+                intent.putExtra("thumbnail", child.getData().getThumbnail());
+                Pair<View, String> pair1 = new Pair<>((View) mImageView, "image");
+                Pair<View, String> pair2 = new Pair<>((View) title, "title");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((MainActivity)mContext, pair1,pair2);
+                        makeSceneTransitionAnimation((MainActivity) mContext, pair1, pair2);
                 mContext.startActivity(intent, options.toBundle());
 
 
@@ -88,12 +99,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Children child = childrenList.get(position);
         holder.author.setText("Author: " + child.getData().getAuthor());
-        holder.subreddit.setText("Subreddit: " +child.getData().getSubreddit());
+        holder.subreddit.setText("Subreddit: " + child.getData().getSubreddit());
         holder.title.setText(child.getData().getTitle());
         Glide.with(mContext)
                 .load(child.getData().getThumbnail())
                 .centerCrop()
-                .override(125,125)
+                .override(125, 125)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
                 .crossFade()

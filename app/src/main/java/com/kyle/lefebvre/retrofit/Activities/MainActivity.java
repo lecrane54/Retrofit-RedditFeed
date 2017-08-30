@@ -35,65 +35,63 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private Retrofit retrofit;
     private RedditApi redditAPI;
-
+    private BlockButton b;
     private List<Children> childrenList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ListAdapter mAdapter;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-
-    }
-
-    @Override
-    protected void onPause() {
-
-        super.onPause();
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        BlockButton b = (BlockButton) findViewById(R.id.button);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        init();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        setupRecyclerView();
+        initRetrofit();
 
-        redditAPI = retrofit.create(RedditApi.class);
 
-        if(isInternetAvailable(this)){
-            refreshFeed();
-        }
-
+        refreshOrDie();
 
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshFeed();
+                refreshOrDie();
 
             }
         });
 
     }
 
-    private void refreshOrDie(){
-        if(isInternetAvailable(this)){
+    private void initRetrofit() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        redditAPI = retrofit.create(RedditApi.class);
+    }
+
+    private void init() {
+        b = (BlockButton) findViewById(R.id.button);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+    }
+
+    private void refreshOrDie() {
+        if (isInternetAvailable(this)) {
             refreshFeed();
-        }else{
-            Log.d("ddd","dead");
+        } else {
+            Log.d("ddd", "dead");
         }
+    }
+
+    private void setupRecyclerView() {
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
 
@@ -105,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Feed> call, Response<Feed> response) {
                 ArrayList<Children> childrenList = response.body().getData().getChildren();
                 mAdapter = new ListAdapter(childrenList);
-
                 recyclerView.setAdapter(mAdapter);
             }
 
@@ -146,12 +143,21 @@ public class MainActivity extends AppCompatActivity {
         try {
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
             int exitValue = ipProcess.waitFor();
-            Log.i("ddd",exitValue + "");
             return (exitValue == 0);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }
