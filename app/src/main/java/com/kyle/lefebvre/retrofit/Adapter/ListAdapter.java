@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +53,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
             }else{
                 int i = getAdapterPosition();
                 Children child = childrenList.get(i);
-                Log.d("ddd","image was clicked  " + i );
-                Intent intent = new Intent(mContext,image.class);
-                //intent.putExtra(image.,child);
 
-                Log.d("ddd",child.getData().getTitle() + "   " + child.getData().getThumbnail());
+                Intent intent = new Intent(mContext,image.class);
+
+
+
                 intent.putExtra("theTitle", child.getData().getTitle());
                 intent.putExtra("thumbnail",child.getData().getThumbnail());
                 Pair<View,String> pair1 = new Pair<>((View)mImageView,"image");

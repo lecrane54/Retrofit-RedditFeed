@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Feed> call, Throwable t) {
-                Log.e(TAG, "onFailure: Something went wrong: " + t.getMessage());
                 Toast.makeText(MainActivity.this, "Something went wrong ", Toast.LENGTH_SHORT).show();
             }
         });

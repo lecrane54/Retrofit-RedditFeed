@@ -11,12 +11,7 @@ import retrofit2.http.Headers;
  */
 
 public interface RedditApi {
-
-    String BASE_URL = "https://www.reddit.com/";
-
-
     @Headers("Content-Type: application/json")
     @GET(".json")
     Call<Feed> getData();
-
 }

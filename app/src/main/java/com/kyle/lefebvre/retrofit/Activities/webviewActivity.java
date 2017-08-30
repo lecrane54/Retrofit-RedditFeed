@@ -27,15 +27,12 @@ public class webviewActivity extends AppCompatActivity {
 
         mWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String urlz){
-                // do your handling codes here, which url is the requested url
-                // probably you need to open that url rather than redirect:
                 view.loadUrl(urlz);
-                return false; // then it is not handled by default action
+                return false;
             }
         });
 
         mWebView.loadUrl(url);
-
 
     }
 
